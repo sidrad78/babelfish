@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Babelfish</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <div class="popup-container">
+    <header class="popup-header">
+      <img src="icons/icon48.png" alt="Babelfish logo" class="logo" />
+      <h1 class="title">Babelfish</h1>
+    </header>
+
+    <section class="section">
+      <div class="row toggle-row">
+        <label class="label" for="toggle-enabled">Show overlay</label>
+        <label class="switch">
+          <input type="checkbox" id="toggle-enabled" />
+          <span class="slider"></span>
+        </label>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">Translate</h2>
+      <div class="lang-row">
+        <div class="lang-group">
+          <label class="label" for="lang-from">From</label>
+          <select id="lang-from" class="select"></select>
+        </div>
+        <button id="swap-langs" class="swap-btn" title="Swap languages">⇄</button>
+        <div class="lang-group">
+          <label class="label" for="lang-to">To</label>
+          <select id="lang-to" class="select"></select>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">Appearance</h2>
+      <div class="row">
+        <label class="label" for="box-color">Box color</label>
+        <input type="color" id="box-color" class="color-input" value="#1a1a2e" />
+      </div>
+      <div class="row">
+        <label class="label" for="text-color">Text color</label>
+        <input type="color" id="text-color" class="color-input" value="#ffffff" />
+      </div>
+      <div class="row">
+        <label class="label" for="opacity">Opacity</label>
+        <div class="slider-wrapper">
+          <input type="range" id="opacity" class="range-input" min="10" max="100" value="80" />
+          <span id="opacity-value" class="range-value">80%</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">Audio Translation</h2>
+      <button id="start-stt-btn" class="stt-btn">Start Listening</button>
+      <button id="stop-stt-btn" class="stt-btn" style="display:none;">Stop Listening</button>
+    </section>
+
+    <section class="section">
+      <button id="reset-btn" class="reset-btn">Reset defaults</button>
+    </section>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
