@@ -19,6 +19,26 @@
     opacity: 80,
   };
 
+  const VALID_SETTINGS = {
+    enabled: (v) => typeof v === 'boolean',
+    langFrom: (v) => typeof v === 'string' && v.length <= 10,
+    langTo: (v) => typeof v === 'string' && v.length <= 10,
+    boxColor: (v) => typeof v === 'string' && /^#[0-9a-fA-F]{6}$/.test(v),
+    textColor: (v) => typeof v === 'string' && /^#[0-9a-fA-F]{6}$/.test(v),
+    opacity: (v) => typeof v === 'number' && v >= 0 && v <= 100,
+  };
+
+  function validateSettings(input) {
+    if (!input || typeof input !== 'object') return settings;
+    const validated = {};
+    for (const key in VALID_SETTINGS) {
+      if (key in input && VALID_SETTINGS[key](input[key])) {
+        validated[key] = input[key];
+      }
+    }
+    return validated;
+  }
+
   // ── Build overlay ────────────────────────────────────────────────────────
   function createOverlay() {
     if (overlay) return;
@@ -162,7 +182,8 @@
   // ── Message listener ─────────────────────────────────────────────────────
   chrome.runtime.onMessage.addListener((msg) => {
     if (msg.type === "UPDATE_SETTINGS") {
-      settings = { ...settings, ...msg.settings };
+      const validated = validateSettings(msg.settings);
+      settings = { ...settings, ...validated };
       applyEnabled();
       applyAppearance();
     } else if (msg.type === "UPDATE_TRANSCRIPTION") {
