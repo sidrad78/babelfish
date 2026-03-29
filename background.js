@@ -1,34 +1,43 @@
-chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type === 'START_STT') {
-    const streamId = await chrome.tabCapture.getMediaStreamId({ targetTabId: sender.tab.id });
-    await ensureOffscreenDocument();
-    
-    chrome.storage.sync.get({ langFrom: 'auto', langTo: 'en' }, (settings) => {
-      const lang = settings.langFrom === 'auto' ? 'en-US' : settings.langFrom;
-      chrome.runtime.sendMessage({
-        type: 'START_RECORDING',
-        target: 'offscreen',
-        data: streamId,
-        lang: lang
-      });
-    });
-    
-    // Update UI to show recording status
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      if (tabs[0]?.id) {
-        chrome.tabs.sendMessage(tabs[0].id, { 
-          type: 'STT_STATUS', 
-          recording: true
+    (async () => {
+      try {
+        if (!sender.tab?.id) {
+          console.error('No tab context available');
+          return;
+        }
+        const streamId = await chrome.tabCapture.getMediaStreamId({ targetTabId: sender.tab.id });
+        await ensureOffscreenDocument();
+        
+        chrome.storage.sync.get({ langFrom: 'auto', langTo: 'en' }, (settings) => {
+          const lang = settings.langFrom === 'auto' ? 'en-US' : settings.langFrom;
+          chrome.runtime.sendMessage({
+            type: 'START_RECORDING',
+            target: 'offscreen',
+            data: streamId,
+            lang: lang
+          });
         });
+        
+        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+          if (tabs[0]?.id) {
+            chrome.tabs.sendMessage(tabs[0].id, { 
+              type: 'STT_STATUS', 
+              recording: true
+            });
+          }
+        });
+      } catch (err) {
+        console.error('START_STT error:', err);
       }
-    });
+    })();
+    return true;
   } else if (message.type === 'STOP_STT') {
     chrome.runtime.sendMessage({
       type: 'STOP_RECORDING',
       target: 'offscreen'
     });
     
-    // Update UI to show stopped status
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       if (tabs[0]?.id) {
         chrome.tabs.sendMessage(tabs[0].id, { 
