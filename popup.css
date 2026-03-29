@@ -1,0 +1,256 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 13px;
+  background: #0f0f1a;
+  color: #e0e0f0;
+  width: 320px;
+  min-height: 100px;
+}
+
+.popup-container {
+  padding: 0 0 8px;
+}
+
+/* ── Header ─────────────────────────────────── */
+.popup-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px 12px;
+  background: linear-gradient(135deg, #1a1a3e, #16213e);
+  border-bottom: 1px solid #2a2a4a;
+}
+
+.logo {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  background: linear-gradient(90deg, #7c83fd, #c792ea);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Sections ────────────────────────────────── */
+.section {
+  padding: 10px 16px 6px;
+  border-bottom: 1px solid #1e1e38;
+}
+
+.section:last-child {
+  border-bottom: none;
+}
+
+.section-title {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #7c83fd;
+  margin-bottom: 8px;
+}
+
+/* ── Rows ────────────────────────────────────── */
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.label {
+  color: #b0b0d0;
+  font-size: 13px;
+}
+
+/* ── Toggle switch ───────────────────────────── */
+.toggle-row {
+  padding: 2px 0;
+}
+
+.switch {
+  position: relative;
+  width: 42px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  inset: 0;
+  background: #2a2a4a;
+  border-radius: 22px;
+  cursor: pointer;
+  transition: background 0.25s;
+}
+
+.slider::before {
+  content: "";
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  left: 3px;
+  top: 3px;
+  background: #ffffff;
+  border-radius: 50%;
+  transition: transform 0.25s;
+}
+
+.switch input:checked + .slider {
+  background: #7c83fd;
+}
+
+.switch input:checked + .slider::before {
+  transform: translateX(20px);
+}
+
+/* ── Language row ────────────────────────────── */
+.lang-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.lang-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.select {
+  background: #1e1e38;
+  color: #e0e0f0;
+  border: 1px solid #2a2a4a;
+  border-radius: 6px;
+  padding: 5px 8px;
+  font-size: 13px;
+  cursor: pointer;
+  width: 100%;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%237c83fd'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  padding-right: 26px;
+}
+
+.select:focus {
+  outline: none;
+  border-color: #7c83fd;
+}
+
+.swap-btn {
+  background: #1e1e38;
+  border: 1px solid #2a2a4a;
+  color: #7c83fd;
+  border-radius: 6px;
+  width: 30px;
+  height: 30px;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.2s, color 0.2s;
+  margin-bottom: 1px;
+}
+
+.swap-btn:hover {
+  background: #7c83fd;
+  color: #ffffff;
+}
+
+/* ── Color inputs ────────────────────────────── */
+.color-input {
+  width: 36px;
+  height: 26px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  padding: 2px;
+  background: #1e1e38;
+  border: 1px solid #2a2a4a;
+}
+
+.color-input::-webkit-color-swatch-wrapper {
+  padding: 2px;
+}
+
+.color-input::-webkit-color-swatch {
+  border: none;
+  border-radius: 4px;
+}
+
+/* ── Range slider ────────────────────────────── */
+.slider-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.range-input {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 120px;
+  height: 4px;
+  background: #2a2a4a;
+  border-radius: 4px;
+  outline: none;
+  cursor: pointer;
+}
+
+.range-input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  background: #7c83fd;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.range-value {
+  color: #7c83fd;
+  font-size: 12px;
+  min-width: 32px;
+  text-align: right;
+}
+
+/* ── Reset button ────────────────────────────── */
+.reset-btn {
+  width: 100%;
+  padding: 7px 12px;
+  background: #1e1e38;
+  color: #b0b0d0;
+  border: 1px solid #2a2a4a;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.reset-btn:hover {
+  background: #2a2a4a;
+  color: #e0e0f0;
+}
