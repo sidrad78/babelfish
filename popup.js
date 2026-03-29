@@ -165,6 +165,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const opacityEl = $("opacity");
   const opacityValueEl = $("opacity-value");
   const resetBtn = $("reset-btn");
+  const startSttBtn = $("start-stt-btn");
+  const stopSttBtn = $("stop-stt-btn");
+  let isListening = false;
 
   // Load stored settings
   chrome.storage.sync.get(DEFAULTS, (settings) => {
@@ -233,5 +236,38 @@ document.addEventListener("DOMContentLoaded", () => {
       opacityValueEl.textContent = `${DEFAULTS.opacity}%`;
       sendSettings(DEFAULTS);
     });
+  });
+
+  // STT Controls
+  function updateSttButtons() {
+    if (isListening) {
+      startSttBtn.style.display = "none";
+      stopSttBtn.style.display = "block";
+    } else {
+      startSttBtn.style.display = "block";
+      stopSttBtn.style.display = "none";
+    }
+  }
+
+  startSttBtn.addEventListener("click", async () => {
+    isListening = true;
+    updateSttButtons();
+    
+    // Send message to background to start recording
+    chrome.runtime.sendMessage({ type: "START_STT" });
+    
+    // Make sure overlay is enabled
+    if (!toggleEl.checked) {
+      toggleEl.checked = true;
+      saveAndSend({ enabled: true });
+    }
+  });
+
+  stopSttBtn.addEventListener("click", () => {
+    isListening = false;
+    updateSttButtons();
+    
+    // Send message to background to stop recording
+    chrome.runtime.sendMessage({ type: "STOP_STT" });
   });
 });

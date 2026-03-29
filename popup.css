@@ -254,3 +254,25 @@ body {
   background: #2a2a4a;
   color: #e0e0f0;
 }
+
+/* ── STT buttons ────────────────────────────── */
+.stt-btn {
+  width: 100%;
+  padding: 10px 12px;
+  background: linear-gradient(135deg, #7c83fd, #5b6ee1);
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.stt-btn:hover {
+  background: linear-gradient(135deg, #8b93ff, #6b7ef1);
+}
+
+.stt-btn:active {
+  transform: scale(0.98);
+}

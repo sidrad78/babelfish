@@ -8,6 +8,8 @@
   let textarea = null;
   let titlebar = null;
   let langBadge = null;
+  let statusDot = null;
+  let isRecording = false;
   let settings = {
     enabled: false,
     langFrom: "auto",
@@ -35,7 +37,11 @@
     langBadge = document.createElement("span");
     langBadge.className = "bf-lang-badge";
 
+    statusDot = document.createElement("span");
+    statusDot.className = "bf-status-dot";
+
     titlebar.appendChild(title);
+    titlebar.appendChild(statusDot);
     titlebar.appendChild(langBadge);
 
     // Textarea
@@ -104,6 +110,16 @@
     }
   }
 
+  function updateStatusDot() {
+    if (statusDot) {
+      if (isRecording) {
+        statusDot.classList.add("bf-recording");
+      } else {
+        statusDot.classList.remove("bf-recording");
+      }
+    }
+  }
+
   // ── Draggable ────────────────────────────────────────────────────────────
   function makeDraggable(el, handle) {
     let startX, startY, startLeft, startTop;
@@ -145,10 +161,19 @@
 
   // ── Message listener ─────────────────────────────────────────────────────
   chrome.runtime.onMessage.addListener((msg) => {
-    if (msg.type !== "UPDATE_SETTINGS") return;
-    settings = { ...settings, ...msg.settings };
-    applyEnabled();
-    applyAppearance();
+    if (msg.type === "UPDATE_SETTINGS") {
+      settings = { ...settings, ...msg.settings };
+      applyEnabled();
+      applyAppearance();
+    } else if (msg.type === "UPDATE_TRANSCRIPTION") {
+      if (textarea && msg.text) {
+        textarea.value = msg.text;
+        textarea.scrollTop = textarea.scrollHeight;
+      }
+    } else if (msg.type === "STT_STATUS") {
+      isRecording = msg.recording;
+      updateStatusDot();
+    }
   });
 
   // ── Load initial settings from storage ──────────────────────────────────
