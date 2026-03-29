@@ -3,8 +3,7 @@
   "name": "Babelfish",
   "version": "1.0.0",
   "description": "Live translate any text with a draggable, resizable, translucent overlay.",
-  "permissions": ["storage", "activeTab", "scripting", "tabCapture", "offscreen"],
-  "host_permissions": ["<all_urls>"],
+"permissions": ["storage", "activeTab", "scripting", "tabCapture", "offscreen"],
   "background": {
     "service_worker": "background.js"
   },
